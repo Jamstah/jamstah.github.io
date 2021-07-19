@@ -1,6 +1,6 @@
 ---
 layout: post
-tags: OpenShift
+tags: OpenShift SCC anyuid Storage fsGroup SecurityContextConstraint
 title:  "The OpenShift anyuid SCC and its effects on storage"
 ---
 
