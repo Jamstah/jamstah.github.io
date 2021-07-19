@@ -67,7 +67,7 @@ to prepare the mount under the `anyuid` SCC.
 
 I ran some tests, and you can too, using my handy test repo:
 
-https://github.com/Jamstah/write-test-container
+[https://github.com/Jamstah/write-test-container](https://github.com/Jamstah/write-test-container)
 
 I ran these tests on a Red Hat OpenShift on IBM Cloud cluster using `ibmc-block-gold` storage with
 OpenShift 4.6.36. The important thing to note is that the volume is always writable where the fsGroup
