@@ -73,6 +73,14 @@ I ran these tests on a Red Hat OpenShift on IBM Cloud cluster using `ibmc-block-
 OpenShift 4.6.36. The important thing to note is that the volume is always writable where the fsGroup
 has been defined within the range of groups for the namespace.
 
+The `scc-nonroot-no-context` job is an example of a pod designed for the `restricted` SCC only.
+
+The `scc-anyuid-no-context` job shows what happens when a pod designed for the `restricted` SCC is
+run using the `anyuid` SCC.
+
+The `scc-nonroot-fsgroupproject` and `scc-anyuid-fsgroupproject` jobs show how adding an `fsGroup`
+within the correct range can solve the problem under both SCCs.
+
 Here are my results:
 
 | Job | Job spec fsGroup | Pod Admitted | Effective SCC | Pod spec fsGroup | UID | GID | Groups | Volume UID | Volume GID | Volume perms | Writable | Written UID | Written GID | Written perms |
