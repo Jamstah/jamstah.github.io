@@ -12,6 +12,13 @@ across a situation where when running under the `restricted` SCC, our pods behav
 the less restrictive `anyuid` SCC, they can fail to access storage. This post is an exploration
 of why that is, and a suggestion of how to address it.
 
+A lot of my understanding of how SCCs affect UIDs came from the blog post
+[A Guide to OpenShift and UIDs](https://www.openshift.com/blog/a-guide-to-openshift-and-uids)
+by William Caban Babilonia, its a fantastic resource.
+
+The OpenShift documentation on [Managing security context constraints](https://docs.openshift.com/container-platform/4.6/authentication/managing-security-context-constraints.html)
+is also good for understanding the different SCC settings and strategies.
+
 ## Using the restricted SCC
 
 Best practice when creating an OpenShift pod is to use the `restricted` SCC. The restricted
