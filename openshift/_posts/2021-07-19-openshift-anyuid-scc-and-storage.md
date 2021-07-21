@@ -91,13 +91,59 @@ within the correct range can solve the problem under both SCCs.
 Here are my results:
 
 | Job | Job spec fsGroup | Pod Admitted | Effective SCC | Pod spec fsGroup | UID | GID | Groups | Volume UID | Volume GID | Volume perms | Writable | Written UID | Written GID | Written perms |
-| === | ================ | ============ | ============= | ================ | === | === | ====== | ========== | ========== | ============ | ======== | =========== | =========== | ============= |
-| scc-anyuid-fsgroup0 | 0 | Yes | anyuid | 0 | uid=1001(1001) | gid=0(root) | groups=0(root) | root | root | drwxrwsr-x. | Yes | 1001 | root | -rw-r--r--. |
-| scc-anyuid-fsgroupproject | 1000670000 | Yes | anyuid | 1000670000 | uid=1001(1001) | gid=0(root) | groups=0(root),1000670000 | root | 1000670000 | drwxrwsr-x. | Yes | 1001 | 1000670000 | -rw-r--r--. |
-| scc-anyuid-no-context |  | Yes | anyuid |  | uid=1001(1001) | gid=0(root) | groups=0(root) | root | root | drwxr-xr-x. | No |
+| --- | ---------------- | ------------ | ------------- | ---------------- | --- | --- | ------ | ---------- | ---------- | ------------ | -------- | ----------- | ----------- | ------------- |
+| scc-anyuid-fsgroup0 | 0 | Yes | anyuid | 0 | uid-1001(1001) | gid-0(root) | groups-0(root) | root | root | drwxrwsr-x. | Yes | 1001 | root | -rw-r--r--. |
+| scc-anyuid-fsgroupproject | 1000670000 | Yes | anyuid | 1000670000 | uid-1001(1001) | gid-0(root) | groups-0(root),1000670000 | root | 1000670000 | drwxrwsr-x. | Yes | 1001 | 1000670000 | -rw-r--r--. |
+| scc-anyuid-no-context |  | Yes | anyuid |  | uid-1001(1001) | gid-0(root) | groups-0(root) | root | root | drwxr-xr-x. | No |
 | scc-default-fsgroup0 | 0 | No |
-| scc-default-fsgroupproject | 1000670000 | Yes | restricted | 1000670000 | uid=1000670000(1000670000) | gid=0(root) | groups=0(root),1000670000 | root | 1000670000 | drwxrwsr-x. | Yes | 1000670000 | 1000670000 | -rw-rw-r--. |
-| scc-default-no-context |  | Yes | restricted | 1000670000 | uid=1000670000(1000670000) | gid=0(root) | groups=0(root),1000670000 | root | 1000670000 | drwxrwsr-x. | Yes | 1000670000 | 1000670000 | -rw-rw-r--. |
-| scc-nonroot-fsgroup0 | 0 | Yes | nonroot | 0 | uid=1001(1001) | gid=0(root) | groups=0(root) | root | root | drwxrwsr-x. | Yes | 1001 | root | -rw-r--r--. |
-| scc-nonroot-fsgroupproject | 1000670000 | Yes | restricted | 1000670000 | uid=1000670000(1000670000) | gid=0(root) | groups=0(root),1000670000 | root | 1000670000 | drwxrwsr-x. | Yes | 1000670000 | 1000670000 | -rw-r--r--. |
-| scc-nonroot-no-context |  | Yes | restricted | 1000670000 | uid=1000670000(1000670000) | gid=0(root) | groups=0(root),1000670000 | root | 1000670000 | drwxrwsr-x. | Yes | 1000670000 | 1000670000 | -rw-r--r--. |
+| scc-default-fsgroupproject | 1000670000 | Yes | restricted | 1000670000 | uid-1000670000(1000670000) | gid-0(root) | groups-0(root),1000670000 | root | 1000670000 | drwxrwsr-x. | Yes | 1000670000 | 1000670000 | -rw-rw-r--. |
+| scc-default-no-context |  | Yes | restricted | 1000670000 | uid-1000670000(1000670000) | gid-0(root) | groups-0(root),1000670000 | root | 1000670000 | drwxrwsr-x. | Yes | 1000670000 | 1000670000 | -rw-rw-r--. |
+| scc-nonroot-fsgroup0 | 0 | Yes | nonroot | 0 | uid-1001(1001) | gid-0(root) | groups-0(root) | root | root | drwxrwsr-x. | Yes | 1001 | root | -rw-r--r--. |
+| scc-nonroot-fsgroupproject | 1000670000 | Yes | restricted | 1000670000 | uid-1000670000(1000670000) | gid-0(root) | groups-0(root),1000670000 | root | 1000670000 | drwxrwsr-x. | Yes | 1000670000 | 1000670000 | -rw-r--r--. |
+| scc-nonroot-no-context |  | Yes | restricted | 1000670000 | uid-1000670000(1000670000) | gid-0(root) | groups-0(root),1000670000 | root | 1000670000 | drwxrwsr-x. | Yes | 1000670000 | 1000670000 | -rw-r--r--. |
+
+
+Job
+: Name of the job from the kustomize, includes the name of the SCC (above the default - restricted) that the service account has access to.
+
+Job spec fsGroup
+: The fsGroup applied in the pod template in the job spec
+
+Pod Admitted
+: Was the pod allowed to run on the cluster?
+
+Effective SCC
+: The SCC that OpenShift used to admit the pod
+
+Pod spec fsGroup
+: The fsGroup in the pod spec after admission (to see if OpenShift changed it
+
+UID
+: The UID of the user in the container
+
+GID
+: The GID of the user in the container
+
+Groups
+: The additional groups of the user in the container
+
+Volume UID
+: The UID of the root dir of the volume
+
+Volume GID
+: The GID of the root dir of the volume
+
+Volume perms
+: The permissions applies to the root dir of the volume
+
+Writable
+: Could the container write to storage?
+
+Written UID
+: What UID was the file written with?
+
+Written GID
+: What GID was the file written with?
+
+Written perms
+: What permissions was the file written with (controlled by umask)
