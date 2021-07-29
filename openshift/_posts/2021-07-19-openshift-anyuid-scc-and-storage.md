@@ -53,7 +53,7 @@ Unfortunately, if your pod is relying on defaults to be applied to successfully 
 `chown` your volumes on mount, then applying the `anyuid` SCC to a pod designed for the
 `restricted` SCC can mean you can no longer access mounted storage.
 
-## What can we do about it?
+## What, as operator developers, can we do about it?
 
 Ideally, we would know in advance which SCC would be applied, and could modify our resources
 to specify metadata if we knew OpenShift wasn't going to do it for us, but unfortunately, there's
