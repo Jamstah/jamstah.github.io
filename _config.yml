@@ -27,11 +27,19 @@ url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: jamstah
 github_username:  Jamstah
 permalink: none
+google_analytics: UA-1870587-1
+show_excerpts: "true"
 
 # Build settings
 theme: minima
 plugins:
   - jekyll-feed
+
+minima:
+  social_links:
+    twitter: jamstah
+    github: Jamstah
+    linkedin: hewittjames
 
 # Exclude from processing.
 # The following items will not be processed, by default.
