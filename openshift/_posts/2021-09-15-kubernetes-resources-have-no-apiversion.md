@@ -4,8 +4,6 @@ tags: kubernetes apiversion api deprecation
 title: "Resources in Kubernetes have no API version"
 ---
 
-# Resources in Kubernetes have no API version
-
 OK, so its a bit of a click-bait title, and its not 100% accurate either, but its how
 I have come to think about resources in Kubernetes. Once a resource has been pushed to
 the API server and accepted, it no longer has an API version. Exactly how Kubernetes

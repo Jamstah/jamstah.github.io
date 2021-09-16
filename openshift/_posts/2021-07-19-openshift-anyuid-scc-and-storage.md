@@ -4,8 +4,6 @@ tags: OpenShift SCC anyuid Storage fsGroup SecurityContextConstraint
 title: "The OpenShift anyuid SCC and its effects on storage"
 ---
 
-# The OpenShift anyuid SCC and its effects on storage
-
 Working for IBM on the Cloud Pak for Integration, recently I've been spending a lot of time
 with operators, and how to make running software on OpenShift as easy as possible. I came
 across a situation where when running under the `restricted` SCC, our pods behave, but under
