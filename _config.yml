@@ -31,8 +31,10 @@ google_analytics: UA-1870587-6
 show_excerpts: "true"
 
 # Build settings
-theme: minima
+remote_theme: jekyll/minima
+
 plugins:
+  - jekyll-remote-theme
   - jekyll-feed
 
 minima:
