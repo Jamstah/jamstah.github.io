@@ -29,7 +29,7 @@ multiple forms.
 The API version is the schema that the Kubernetes API server uses to serialize and de-serialize
 resources that you pass to it and that it passes back as responses.
 
-There is no use case within Kubernetes where the a user should be directly accessing
+There is no use case within Kubernetes where a user should be directly accessing
 resources within the etcd database, so from an end user's perspective, the stored object
 has no API version.
 
