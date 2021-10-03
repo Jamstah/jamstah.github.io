@@ -29,6 +29,9 @@ github_username:  Jamstah
 permalink: none
 google_analytics: G-QR44WJYPC9
 show_excerpts: "true"
+author:
+  name: James Hewitt
+  email: info@jammy.id
 
 # Build settings
 remote_theme: jekyll/minima
