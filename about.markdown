@@ -4,4 +4,8 @@ title: About
 permalink: /about/
 ---
 
-I work at IBM, focussing on OpenShift native software.
+My name is James Hewitt, and I'm a senior software architect for the IBM Cloud Pak for Integration. I focus on making the Cloud Pak for Integration and its underlying capabilities secure, servicable, and most importantly, cloud-native.
+
+I love working with Open Source, I'm a certified IBM Cloud Solution Architect, and an IBM Master Inventor.
+
+This blog is a place for me to write stuff down that I'm currently working on, whatever that might be.

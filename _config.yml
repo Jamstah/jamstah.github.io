@@ -21,7 +21,7 @@
 title: jammy.id
 email: info@jammy.id
 description: >-
-  A technology focused blog, covering what I happen to be playing with at the time.
+  The technology focused blog of James Hewitt, covering whatever he happens to be playing with at the time.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: jamstah
