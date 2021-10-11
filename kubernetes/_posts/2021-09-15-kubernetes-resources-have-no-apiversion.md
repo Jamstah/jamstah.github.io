@@ -2,6 +2,8 @@
 layout: post
 tags: kubernetes apiversion api deprecation
 title: "Resources in Kubernetes have no API version"
+redirect_from:
+  - /openshift/kubernetes-resources-have-no-apiversion.html
 ---
 
 OK, so its a bit of a click-bait title, and its not 100% accurate either, but its how
