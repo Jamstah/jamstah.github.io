@@ -2,6 +2,8 @@
 layout: post
 tags: OpenShift SCC anyuid Storage fsGroup SecurityContextConstraint
 title: "The OpenShift anyuid SCC and its effects on storage"
+redirect_from:
+  - /openshift/openshift-anyuid-scc-and-storage.html
 ---
 
 Working for IBM on the Cloud Pak for Integration, recently I've been spending a lot of time
