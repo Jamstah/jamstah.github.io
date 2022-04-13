@@ -4,9 +4,11 @@ tags: kubernetes monitoring openshift cp4i integration
 title: "Monitoring IBM Cloud Pak for Integration components"
 ---
 
+Operational visibility and the ability to understand internals of the **IBM Cloud Pak for Integration** behavior is key to maintain the health, readiness and availability of the solutions built on top of your Cloud Pak.  You can monitor components of your Cloud Pak by leveraging the out of the box monitoring stack provided by the OpenShift Container Platform 4.6+ and enhance it’s capabilities by deploying the monitoring services provided with the **IBM Cloud Pak Foundational Services**.  This configuration provides a powerful open source based solution that allows you to identify and respond to issues in a timely manner in order to guarantee the level of service and availability of your integrations.
+
 **Author:**
 
-James Hewitt: *Senior Technical Staff Member / Cloud Pak for Integration*
+* James Hewitt: *Senior Technical Staff Member / Cloud Pak for Integration*
 
 **Contributors:**
 
