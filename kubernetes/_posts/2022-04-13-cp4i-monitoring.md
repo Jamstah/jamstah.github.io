@@ -1,22 +1,22 @@
-# How to Monitor Components of the IBM Cloud Pak For Integration
+---
+layout: post
+tags: kubernetes monitoring openshift cp4i integration
+title: "Monitoring IBM Cloud Pak for Integration components"
+---
 
-**Author:** \
-James Hewitt \
-* Chief Architect | Cloud Pak for Integration*
+**Author:**
 
+James Hewitt: *Senior Technical Staff Member / Cloud Pak for Integration*
 
-**Contributors:** \
-Jorge D. Rodriguez \
-*STSM | Business Automation Solutions Architect | Automation SWAT Team*
+**Contributors:**
 
-Dr. Matthias Jung \
-* Enterprise Content Services | Accelerated Value Specialist | Digital Business Automation - SWAT*
+* Jorge D. Rodriguez: *STSM / Business Automation Solutions Architect / Automation SWAT Team*
 
-Kevin Trinh \
-* STSM | Cloud Integration Architect | Digital Business Automation (ECM)*
+* Dr. Matthias Jung: *Enterprise Content Services / Accelerated Value Specialist / Digital Business Automation - SWAT*
 
-Piotr Godowski \
-* STSM | Cloud Pak Foundational Services Architecture*
+* Kevin Trinh: *STSM / Cloud Integration Architect / Digital Business Automation (ECM)*
+
+* Piotr Godowski: *STSM / Cloud Pak Foundational Services Architecture*
 
 Huge thanks to Jorge who wrote [How to Monitor Components of Cloud Pak for Business Automation](https://community.ibm.com/community/user/automation/blogs/jorge-rodriguez1/2021/10/04/how-to-monitor-ibm-cloud-pak-for-ba), which is the basis for this blog post.
 
