@@ -41,12 +41,15 @@ are just different ways in to the same set of resources.
 
 ![The client connects to either of the API versions within the Ingress API, which itself is part of the API server.](/assets/kube-api-server-apiversions.svg){: .center }
 
-## What could go wrong?
+## API Deprecation: what could go wrong?
 
-For a concrete example, imagine you have written an operator for Kubernetes that deploys
-software for your users, and you want to know if that's going to work in Kubernetes 1.22.
-Kubernetes 1.22 removes a number of API versions that have been deprecated for a long time,
-so you need to check that you aren't using them.
+The way that Kubernetes stores resources can trip up users who are attempting to handle
+API deprecation.
+
+As a concrete example, imagine you have written an operator for Kubernetes that deploys
+software for your users, including `Ingress` resources, and you want to know if that's
+going to work in Kubernetes 1.22. Kubernetes 1.22 removes a number of API versions that
+have been deprecated for a long time, so you need to check that you aren't using them.
 
 The immediate reaction could be to pull the resources that your operator creates from the
 Kubernetes cluster and look at them, so you run `kubectl get ingress -o yaml` to check that
@@ -182,7 +185,7 @@ in to an etcd associated with a Kubernetes cluster you can find keys like this:
 /registry/deployments/kube-system/coredns
 ```
 
-That's the key for the `coredns` Deployment in the `kube-system` namespace. The key
+That's the key for the `coredns` `Deployment` in the `kube-system` namespace. The key
 itself does not have an API version, because the API version is only used for serializing
 resources.
 
