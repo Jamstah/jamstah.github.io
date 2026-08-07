@@ -146,10 +146,7 @@ enabled" behaviour in the upstream toolchain.
 **`GODEBUG=fips140=auto` overrides the link-time default in both directions.**
 On a `GOFIPS140=latest` binary running on a non-FIPS host, setting
 `GODEBUG=fips140=auto` at runtime disables FIPS — 3DES succeeded and
-`fips140.Enabled()` returned false. This is a significant operational concern:
-if you deploy `GOFIPS140=latest` binaries and `GODEBUG=fips140=auto` is present
-in the runtime environment (e.g. a Kubernetes ConfigMap or systemd unit), it can
-silently disable FIPS on non-FIPS hosts.
+`fips140.Enabled()` returned false.
 
 ---
 
