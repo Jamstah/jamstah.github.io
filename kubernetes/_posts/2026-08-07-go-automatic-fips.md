@@ -2,6 +2,9 @@
 layout: post
 tags: go fips redhat containers kubernetes
 title: "Automatic FIPS 140-3 in Go: What Actually Works"
+image:
+  path: /assets/go-automatic-fips.jpg
+  alt: A Go gopher wearing a FIPS compliance badge, standing in front of a server rack with a green padlock icon glowing on the front panel. Clean flat illustration, tech blog style, dark background.
 ---
 
 Ideally, you want to build software once and run it anywhere. With FIPS and Go that
