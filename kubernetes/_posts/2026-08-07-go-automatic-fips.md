@@ -9,6 +9,8 @@ can be tricky because in upstream, FIPS is baked in at build time. Using the Red
 golang toolchain you can produce binaries that detect the FIPS mode of the underlying
 host, and automatically run in the right mode.
 
+![A Go gopher wearing a FIPS compliance badge, standing in front of a server rack with a green padlock icon glowing on the front panel. Clean flat illustration, tech blog style, dark background.](/assets/go-automatic-fips.jpg)
+
 Go 1.26 introduced `crypto/fips140` — a new standard library package giving Go
 programs first-class awareness of FIPS 140-3 mode. Red Hat has been shipping a
 patched Go toolchain in their UBI images for longer than that, with OpenSSL-backed
