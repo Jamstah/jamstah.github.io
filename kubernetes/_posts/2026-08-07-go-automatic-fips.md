@@ -12,8 +12,6 @@ can be tricky because in upstream, FIPS is baked in at build time. Using the Red
 golang toolchain you can produce binaries that detect the FIPS mode of the underlying
 host, and automatically run in the right mode.
 
-![A Go gopher wearing a FIPS compliance badge, standing in front of a server rack with a green padlock icon glowing on the front panel. Clean flat illustration, tech blog style, dark background.](/assets/go-automatic-fips.jpg)
-
 Go 1.26 introduced `crypto/fips140` — a new standard library package giving Go
 programs first-class awareness of FIPS 140-3 mode. Red Hat has been shipping a
 patched Go toolchain in their UBI images for longer than that, with OpenSSL-backed
@@ -30,10 +28,17 @@ what we found. The test program and Makefile are available at
 
 ## TL;DR
 
+This blog post is all based on Go 1.26. In Go 1.27, Red Hat are no longer supporting
+use of openssl as the crypto for their Go toolset, see
+[Migration to Upstream FIPS certified cryptography](https://github.com/golang-fips/go/blob/main/README.md#migration-to-upstream-fips-certified-cryptography).
+
 To build a Go binary that automatically uses FIPS on FIPS-enabled hosts and runs
 normally everywhere else, pick one:
 
 **Option A — OpenSSL backend (simplest, no runtime config):**
+
+The platform openssl is used at runtime, so your runtime OS needs to include openssl and support FIPs.
+
 ```dockerfile
 FROM registry.access.redhat.com/ubi10/go-toolset:1.26 AS builder
 RUN go build -o /myapp .          # no GOFIPS140, no no_openssl
@@ -44,6 +49,9 @@ ENTRYPOINT ["/usr/local/bin/myapp"]
 ```
 
 **Option B — Go native FIPS module (`fips140.Enabled()` works correctly):**
+
+You have to build on the Red Hat toolset but you can run on any OS because native Go FIPS is used. You need to set the GODEBUG option at runtime for automatic FIPS enablement.
+
 ```dockerfile
 FROM registry.access.redhat.com/ubi10/go-toolset:1.26 AS builder
 RUN go build -tags no_openssl -o /myapp .
@@ -53,8 +61,25 @@ COPY --from=builder /myapp /usr/local/bin/myapp
 ENV GODEBUG=fips140=auto
 ENTRYPOINT ["/usr/local/bin/myapp"]
 ```
-FIPS activates automatically when `/proc/sys/crypto/fips_enabled=1`, and
-`crypto/fips140.Enabled()` correctly reflects the state.
+
+**Option C — Go native FIPS module and config using `go.mod`:**
+
+You need to build on the Red Hat toolset and you can run anywhere without runtime configuration because the default GODEBUG fips140 setting is linked in to the binary.
+
+Add a `godebug` directive to `go.mod`:
+```
+godebug fips140=auto
+```
+
+Then build with `no_openssl` on the Red Hat toolset:
+```dockerfile
+FROM registry.access.redhat.com/ubi10/go-toolset:1.26 AS builder
+RUN go build -tags no_openssl -o /myapp .
+
+FROM registry.access.redhat.com/ubi10/ubi-minimal
+COPY --from=builder /myapp /usr/local/bin/myapp
+ENTRYPOINT ["/usr/local/bin/myapp"]
+```
 
 ---
 
@@ -188,15 +213,44 @@ Also note: for this to work at runtime, the container must link against OpenSSL
 — meaning you need a runtime image that includes OpenSSL libraries (such as
 `ubi-minimal` or `ubi`), not a scratch image.
 
-### Approach 2: Build with the Red Hat toolset, `no_openssl`, and set `GODEBUG=fips140=auto` at runtime
+### Approach 2: Build with the Red Hat toolset, `no_openssl`, and set `GODEBUG=fips140=auto`
 
 This approach uses the Go native FIPS module and activates it via the
 `GODEBUG=fips140=auto` setting introduced by the Red Hat patches to the Go
-toolchain.
+toolchain. At startup, the Go runtime reads `/proc/sys/crypto/fips_enabled`.
+If it is `1`, FIPS mode activates and `fips140.Enabled()` returns true. On a
+non-FIPS host, `auto` resolves to off and the program runs normally.
+
+There are two ways to set `fips140=auto` — pick whichever fits your workflow.
+
+#### Option B: Set it in the Dockerfile
+
+Bake it into the container image itself with `ENV`:
 
 ```dockerfile
 FROM registry.access.redhat.com/ubi10/go-toolset:1.26 AS builder
-# Disable OpenSSL backend to use the Go native FIPS module
+RUN go build -tags no_openssl -o /myapp .
+
+FROM registry.access.redhat.com/ubi10/ubi-minimal
+COPY --from=builder /myapp /usr/local/bin/myapp
+ENV GODEBUG=fips140=auto
+ENTRYPOINT ["/usr/local/bin/myapp"]
+```
+
+#### Option C: Set it in `go.mod` (Go 1.23+)
+
+Add a `godebug` directive to your module's `go.mod`:
+
+```
+godebug fips140=auto
+```
+
+The Go toolchain bakes this into the binary as a link-time default — no `ENV`
+in the Dockerfile and no Kubernetes configuration needed. The binary carries
+the setting with it regardless of where it is deployed.
+
+```dockerfile
+FROM registry.access.redhat.com/ubi10/go-toolset:1.26 AS builder
 RUN go build -tags no_openssl -o /myapp .
 
 FROM registry.access.redhat.com/ubi10/ubi-minimal
@@ -204,47 +258,32 @@ COPY --from=builder /myapp /usr/local/bin/myapp
 ENTRYPOINT ["/usr/local/bin/myapp"]
 ```
 
-Then set `GODEBUG=fips140=auto` in your runtime environment:
-
-```yaml
-# Kubernetes deployment
-env:
-  - name: GODEBUG
-    value: fips140=auto
-```
-
-```bash
-# Or directly
-GODEBUG=fips140=auto ./myapp
-```
-
-At startup, the Go runtime reads `/proc/sys/crypto/fips_enabled`. If it is `1`,
-FIPS mode activates and `fips140.Enabled()` returns true. On a non-FIPS host,
-`auto` resolves to off and the program runs normally.
-
 **The advantage over Approach 1:** `crypto/fips140.Enabled()` correctly reflects
-the FIPS state, so your application code can query it reliably.
+the FIPS state, so your application code can query it reliably. The binary can
+also run on a scratch or non-OpenSSL runtime image since it has no OpenSSL
+dependency.
 
 **The caveat:** `GODEBUG=fips140=auto` overrides the link-time default in both
-directions. If you set it in a base image or cluster-wide environment and also
-deploy binaries built with `GOFIPS140=latest`, those binaries will have FIPS
-disabled on non-FIPS hosts. Only use `auto` if you want kernel-aware activation.
-If you need FIPS unconditionally, use `GOFIPS140=latest` and do not set a
-runtime `GODEBUG` override.
+directions. If it is set (via `ENV`, `go.mod`, or the host environment) and you
+also deploy binaries built with `GOFIPS140=latest`, those binaries will have
+FIPS disabled on non-FIPS hosts. Only use `auto` if you want kernel-aware
+activation. If you need FIPS unconditionally, use `GOFIPS140=latest` and do not
+set a runtime `GODEBUG` override.
 
 ---
 
 ## A note on `GOFIPS140` unset with the Red Hat toolchain
 
 The [golang-fips patch](https://github.com/golang-fips/go/blob/go1.26.5/patches/004-host-fips-auto.patch)
-is designed to make `GOFIPS140` unset default to `v1.0.0` (a certified snapshot)
-with `GODEBUG=fips140=auto` baked in at link time — giving automatic
-kernel-aware activation with no runtime configuration needed. When this ships,
-Approach 2 above would not require any runtime env var at all.
+is designed to make `GOFIPS140` unset default to `v1.0.0` (a NIST-certified
+snapshot) with `GODEBUG=fips140=auto` baked in at link time — giving automatic
+kernel-aware activation from an unmodified build, with no explicit `go.mod`
+entry and no runtime env var.
 
 However, `ubi10/go-toolset:1.26` does not yet implement this default:
-`go env GOFIPS140` returns `off` when unset. Until the patch ships in the image,
-`GODEBUG=fips140=auto` must be set at runtime as shown above.
+`go env GOFIPS140` returns `off` when unset. Until the patch ships in this image,
+use Option C (`go.mod`) or Option B (`ENV`) from Approach 2 above to achieve
+the same result today.
 
 ---
 
