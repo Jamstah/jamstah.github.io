@@ -2,6 +2,9 @@
 layout: post
 tags: appconnect integration ace image volume
 title: "IBM App Connect Enterprise containers using image volume mounts"
+image:
+  path: /assets/ace-image-volume.jpg
+  alt: A shipping container stacked neatly inside a larger container, surrounded by other containers on a cargo dock.
 ---
 
 You can use image volume mounts in an App Connect Runtime using the App Connect operator as part of Cloud Pak for Integration.
