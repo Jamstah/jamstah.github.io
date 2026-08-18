@@ -8,7 +8,7 @@ image:
 ---
 
 You can use image volume mounts in an App Connect Runtime using the App Connect operator as part of Cloud Pak for Integration.
-Most Cloud Pak for Integration users will have a local registry for storing their container images and will typically mirror software to ensure reliable image access.
+Most Cloud Pak for Integration and IBM App Connect in containers users will have a local registry for storing their container images and will typically mirror software to ensure reliable image access.
 Reusing this infrastructure for bar files makes deployment and reliability simple.
 
 ## Step 1: Put bar files into an image
