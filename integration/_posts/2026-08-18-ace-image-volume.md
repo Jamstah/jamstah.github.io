@@ -7,7 +7,7 @@ image:
   alt: A shipping container stacked neatly inside a larger container, surrounded by other containers on a cargo dock.
 ---
 
-You can use image volume mounts in an App Connect Runtime using the App Connect operator as part of Cloud Pak for Integration.
+You can use [image volume mounts](https://kubernetes.io/docs/tasks/configure-pod-container/image-volumes/) in an App Connect Runtime using the App Connect operator as part of Cloud Pak for Integration.
 Most Cloud Pak for Integration and IBM App Connect in containers users will have a local registry for storing their container images and will typically mirror software to ensure reliable image access.
 Reusing this infrastructure for bar files makes deployment and reliability simple.
 
