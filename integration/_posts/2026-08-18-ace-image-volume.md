@@ -51,7 +51,7 @@ spec:
       containers:
         - name: runtime
           volumeMounts:
-            - mountPath: /home/aceuser/ace-server/run
+            - mountPath: /home/aceuser/initial-config/bars
               name: strings
       volumes:
         - image:
