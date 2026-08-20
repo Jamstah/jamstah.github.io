@@ -54,9 +54,10 @@ spec:
             - mountPath: /home/aceuser/initial-config/bars
               name: strings
       volumes:
-        - image:
+        - name: strings
+          image:
             reference: 'quay.io/jammy/strings-bar:latest'
-          name: strings
+            pullPolicy: IfNotPresent
   version: '13.0'
 ```
 
