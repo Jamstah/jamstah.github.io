@@ -11,6 +11,8 @@ You can use [image volume mounts](https://kubernetes.io/docs/tasks/configure-pod
 Most Cloud Pak for Integration and IBM App Connect in containers users will have a local registry for storing their container images and will typically mirror software to ensure reliable image access.
 Reusing this infrastructure for bar files makes deployment and reliability simple.
 
+The image will be pulled using the same pull secrets available to the pod and can have its own pull policy specified.
+
 ## Step 1: Put bar files into an image
 
 Use a very simple `FROM scratch` Dockerfile to copy the bar files you want onto an image.
