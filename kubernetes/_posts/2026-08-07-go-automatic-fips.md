@@ -186,7 +186,7 @@ If you want a binary that is FIPS-compliant on a FIPS host and runs normally
 elsewhere — without changing the binary between environments — there are two
 approaches that work today.
 
-### Approach 1: Build with the Red Hat toolset, keep the OpenSSL backend
+### Approach 1 (Option A): Build with the Red Hat toolset, keep the OpenSSL backend
 
 This is the simplest approach and the default when using `ubi10/go-toolset`.
 
