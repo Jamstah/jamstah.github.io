@@ -73,7 +73,7 @@ Because Git only contains `barauth-empty`, Argo CD reports the resource as `OutO
    This prevents the operator from injecting `<name>-mcp-ba-creds`.
 
 2. **Handle the Admin SSL Configuration:**
-   For `*-ir-adminssl`, you can either pre-create and declare your own admin SSL `Configuration` object in Git, or configure Argo CD to ignore the generated configuration in its diff calculation.
+   For `*-ir-adminssl`, you can either pre-create and declare your own admin SSL `Configuration` object in Git (recommended), or configure Argo CD to ignore the generated configuration in its diff calculation.
 
    To ignore the generated SSL configuration across all `IntegrationRuntime` resources, add a `resourceIgnoreDifferences` entry to your `ArgoCD` custom resource:
 
@@ -87,6 +87,8 @@ Because Git only contains `barauth-empty`, Argo CD reports the resource as `OutO
              jqPathExpressions:
                - '.spec.configurations[] | select(endswith("-ir-adminssl"))'
    ```
+
+   You can use similar configuration in a GitOps `Application` if you don't control the whole GitOps installation. Use the same block, but under `spec.ignoreDifferences`.
 
 ---
 
