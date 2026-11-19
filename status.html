@@ -1,0 +1,838 @@
+---
+layout: default
+title: Service Status
+permalink: /status/
+---
+
+<div class="statuspage-container">
+  <!-- Header & Overall Status Banner -->
+  <header class="statuspage-header">
+    <div class="statuspage-title-row">
+      <div class="statuspage-brand">
+        <span class="status-heart">❤️</span>
+        <div>
+          <h1 class="status-main-title">Status: Love for Sooty</h1>
+          <p class="status-sub-title">Real-time telemetry and operational health metrics</p>
+        </div>
+      </div>
+      <div class="status-subscribe-box">
+        <button type="button" class="subscribe-btn" id="subscribeBtn" onclick="toggleSubscribe()">
+          <span class="btn-icon">🔔</span> <span id="subscribeText">Subscribed Forever</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="overall-status-banner">
+      <div class="status-indicator-wrapper">
+        <span class="status-dot"></span>
+      </div>
+      <div class="status-banner-text">
+        <div class="status-banner-heading">All Systems Operational</div>
+        <div class="status-banner-sub" id="lastUpdatedText">Verified operational as of right now</div>
+      </div>
+      <div class="status-banner-metric">
+        <span class="metric-val">100.0%</span>
+        <span class="metric-lbl">Current Uptime</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Key Metrics Row -->
+  <section class="status-metrics-grid">
+    <div class="metric-card">
+      <span class="metric-card-label">90-Day Uptime</span>
+      <span class="metric-card-value text-success">100.000%</span>
+      <span class="metric-card-foot">0 outages detected</span>
+    </div>
+    <div class="metric-card">
+      <span class="metric-card-label">Love Latency</span>
+      <span class="metric-card-value text-primary">&lt; 0.01 ms</span>
+      <span class="metric-card-foot">Instantaneous dispatch</span>
+    </div>
+    <div class="metric-card">
+      <span class="metric-card-label">Heartbeat Rate</span>
+      <span class="metric-card-value text-accent" id="liveHeartbeats">100%</span>
+      <span class="metric-card-foot">Synced with Sooty</span>
+    </div>
+    <div class="metric-card">
+      <span class="metric-card-label">Lifetime Incidents</span>
+      <span class="metric-card-value text-success">0</span>
+      <span class="metric-card-foot">Flawless track record</span>
+    </div>
+  </section>
+
+  <!-- System Components / Services -->
+  <section class="status-section">
+    <div class="section-header">
+      <h2>Core Services &amp; Subsystems</h2>
+      <span class="section-badge">All 8 Services Healthy</span>
+    </div>
+
+    <div class="components-list" id="componentsList">
+      <!-- Generated via JS for interactive uptime bars & real-time dates -->
+    </div>
+  </section>
+
+  <!-- 90 Day Overall Timeline -->
+  <section class="status-section">
+    <div class="section-header">
+      <h2>Overall System Availability</h2>
+      <span class="section-sub" id="ninetyDaysRangeText">Past 90 Days</span>
+    </div>
+    <div class="overall-timeline-box">
+      <div class="uptime-bar-container" id="overallUptimeBars">
+        <!-- 90 day bars injected via JS -->
+      </div>
+      <div class="timeline-legend">
+        <span id="ninetyDaysAgoLabel">90 days ago</span>
+        <span class="legend-center">100.0% uptime</span>
+        <span>Today</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Past Incidents History -->
+  <section class="status-section">
+    <div class="section-header">
+      <h2>Past Incident History</h2>
+      <span class="section-sub">Chronological daily operational logs</span>
+    </div>
+
+    <div class="incident-history" id="incidentHistory">
+      <!-- Injected via JS with live dates -->
+    </div>
+  </section>
+
+  <!-- Status Page Footer Notice -->
+  <footer class="statuspage-notice">
+    <p>
+      🔒 <strong>SLA Guarantee:</strong> Love for Sooty is guaranteed at 100.0% uptime across all seasons, weather conditions, and time zones.
+      Maintained with ❤️ by James.
+    </p>
+  </footer>
+</div>
+
+<!-- Status Page Tooltip -->
+<div id="statusTooltip" class="status-tooltip" style="display: none;"></div>
+
+<style>
+/* Status Page Specific Styles */
+.statuspage-container {
+  max-width: 860px;
+  margin: 1.5rem auto 3rem auto;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: #24292f;
+  line-height: 1.5;
+}
+
+.statuspage-header {
+  margin-bottom: 2rem;
+}
+
+.statuspage-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.statuspage-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.status-heart {
+  font-size: 2.2rem;
+  animation: heartPulse 1.8s ease-in-out infinite;
+  display: inline-block;
+}
+
+@keyframes heartPulse {
+  0% { transform: scale(1); }
+  14% { transform: scale(1.15); }
+  28% { transform: scale(1); }
+  42% { transform: scale(1.15); }
+  70% { transform: scale(1); }
+}
+
+.status-main-title {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1a1f2c;
+  line-height: 1.2;
+}
+
+.status-sub-title {
+  margin: 0.2rem 0 0 0;
+  font-size: 0.9rem;
+  color: #57606a;
+}
+
+.subscribe-btn {
+  background: #f6f8fa;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  padding: 0.45rem 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #24292f;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all 0.2s ease;
+}
+
+.subscribe-btn:hover {
+  background: #ebecf0;
+  border-color: #afb8c1;
+}
+
+/* Overall Status Banner */
+.overall-status-banner {
+  background: linear-gradient(135deg, #107e3e 0%, #0e7037 100%);
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  box-shadow: 0 4px 12px rgba(16, 126, 62, 0.2);
+}
+
+.status-indicator-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.status-dot {
+  width: 16px;
+  height: 16px;
+  background-color: #57e389;
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 rgba(87, 227, 137, 0.7);
+  animation: pulseDot 2s infinite;
+}
+
+@keyframes pulseDot {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(87, 227, 137, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(87, 227, 137, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(87, 227, 137, 0);
+  }
+}
+
+.status-banner-text {
+  flex: 1;
+}
+
+.status-banner-heading {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.status-banner-sub {
+  font-size: 0.85rem;
+  opacity: 0.9;
+  margin-top: 0.2rem;
+}
+
+.status-banner-metric {
+  text-align: right;
+  border-left: 1px solid rgba(255, 255, 255, 0.25);
+  padding-left: 1.25rem;
+}
+
+.status-banner-metric .metric-val {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.status-banner-metric .metric-lbl {
+  display: block;
+  font-size: 0.75rem;
+  opacity: 0.85;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0.25rem;
+}
+
+/* Metrics Grid */
+.status-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2.25rem;
+}
+
+.metric-card {
+  background: #ffffff;
+  border: 1px solid #e1e4e8;
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-card-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: #6a737d;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.35rem;
+}
+
+.metric-card-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 0.25rem;
+}
+
+.text-success { color: #1a7f37; }
+.text-primary { color: #0969da; }
+.text-accent { color: #cf222e; }
+
+.metric-card-foot {
+  font-size: 0.75rem;
+  color: #8c959f;
+}
+
+/* Sections */
+.status-section {
+  background: #ffffff;
+  border: 1px solid #e1e4e8;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #f0f2f5;
+  padding-bottom: 0.85rem;
+  margin-bottom: 1.25rem;
+}
+
+.section-header h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0;
+  color: #1f2328;
+}
+
+.section-badge {
+  background: #dafbe1;
+  color: #1a7f37;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.2rem 0.55rem;
+  border-radius: 12px;
+}
+
+.section-sub {
+  font-size: 0.8rem;
+  color: #6a737d;
+}
+
+/* Components List */
+.components-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.component-item {
+  border-bottom: 1px solid #f6f8fa;
+  padding-bottom: 1.1rem;
+}
+
+.component-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.component-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.4rem;
+}
+
+.component-name-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.component-icon {
+  font-size: 1.1rem;
+}
+
+.component-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1f2328;
+}
+
+.component-desc {
+  font-size: 0.8rem;
+  color: #57606a;
+  margin-left: 1.6rem;
+  margin-bottom: 0.5rem;
+}
+
+.component-status-badge {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #1a7f37;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.component-status-badge::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #2da44e;
+}
+
+/* Uptime Bar Graph */
+.uptime-bar-container {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 28px;
+  width: 100%;
+}
+
+.uptime-bar {
+  flex: 1 1 0;
+  height: 100%;
+  background-color: #2da44e;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: transform 0.1s ease, background-color 0.1s ease;
+}
+
+.uptime-bar:hover {
+  background-color: #1a7f37;
+  transform: scaleY(1.2);
+}
+
+.component-uptime-summary {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: #6e7781;
+  margin-top: 0.35rem;
+}
+
+/* Overall Timeline */
+.overall-timeline-box {
+  padding: 0.5rem 0;
+}
+
+.timeline-legend {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: #6e7781;
+  margin-top: 0.5rem;
+  border-top: 1px solid #f6f8fa;
+  padding-top: 0.4rem;
+}
+
+.legend-center {
+  font-weight: 600;
+  color: #1a7f37;
+}
+
+/* Incident History */
+.incident-history {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.incident-day {
+  border-left: 2px solid #2da44e;
+  padding-left: 1rem;
+}
+
+.incident-date {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #24292f;
+  margin-bottom: 0.25rem;
+}
+
+.incident-body {
+  font-size: 0.85rem;
+  color: #57606a;
+}
+
+.incident-tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  background-color: #dafbe1;
+  color: #1a7f37;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  margin-right: 0.4rem;
+}
+
+/* Notice */
+.statuspage-notice {
+  text-align: center;
+  padding: 1.25rem;
+  background: #f6f8fa;
+  border-radius: 8px;
+  border: 1px dashed #d0d7de;
+  font-size: 0.85rem;
+  color: #57606a;
+}
+
+.statuspage-notice p {
+  margin: 0;
+}
+
+/* Tooltip */
+.status-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #ffffff;
+  padding: 0.35rem 0.65rem;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 1000;
+  white-space: nowrap;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transform: translate(-50%, -120%);
+}
+
+.status-tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -4px;
+  border-width: 4px;
+  border-style: solid;
+  border-color: #1f2328 transparent transparent transparent;
+}
+
+@media (max-width: 640px) {
+  .statuspage-title-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .overall-status-banner {
+    flex-direction: column;
+    text-align: center;
+  }
+  .status-banner-metric {
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.25);
+    padding-left: 0;
+    padding-top: 0.75rem;
+    width: 100%;
+    text-align: center;
+  }
+  .component-top-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+  .uptime-bar-container {
+    height: 20px;
+    gap: 1px;
+  }
+}
+</style>
+
+<script>
+(function() {
+  // Service definition
+  const services = [
+    {
+      id: 'core-love',
+      name: 'Unconditional Love Core',
+      icon: '💖',
+      desc: 'High-availability affection engine running 24/7 with zero maintenance windows.'
+    },
+    {
+      id: 'tea-coffee',
+      name: 'Morning Tea & Coffee Delivery Service',
+      icon: '☕',
+      desc: 'Hot beverage provisioning daemon with priority queueing and custom sweetness parameters.'
+    },
+    {
+      id: 'cuddles-hugs',
+      name: 'Hugs & Cuddle Gateway',
+      icon: '🫂',
+      desc: 'Low-latency warmth protocol supporting unlimited concurrent snuggle sessions.'
+    },
+    {
+      id: 'active-listening',
+      name: 'Active Listening & Empathy Cluster',
+      icon: '👂',
+      desc: '100% bandwidth allocation for daily stories, thoughts, and debriefs.'
+    },
+    {
+      id: 'laughter-smiles',
+      name: 'Laughter & Silliness Pipeline',
+      icon: '😂',
+      desc: 'Real-time inside joke generator and spontaneous smile deployment.'
+    },
+    {
+      id: 'patience-kindness',
+      name: 'Patience & Kindness Protocol',
+      icon: '🛡️',
+      desc: 'Fault-tolerant gentle responses with automated forgiveness subroutines.'
+    },
+    {
+      id: 'date-night',
+      name: 'Adventures & Date Nights Scheduler',
+      icon: '✨',
+      desc: 'Dynamic itinerary planner for quality time, good food, and memories.'
+    },
+    {
+      id: 'sooty-appreciation',
+      name: 'Sooty Appreciation Daemon',
+      icon: '👑',
+      desc: 'Continuous background task acknowledging how wonderful Sooty is.'
+    }
+  ];
+
+  // Daily status messages for the past incident log
+  const positiveNotes = [
+    "All affection nodes synced seamlessly. 100% love uptime recorded.",
+    "System check complete: Heartbeat rate optimal, happiness index at peak.",
+    "Routine love maintenance: Extra appreciation deployed with zero packet loss.",
+    "Warm beverage and cuddle services operated without disruption.",
+    "Telemetry verified: 100.0% devotion confirmed across all clusters.",
+    "No outages detected. High availability snuggles dispatched on schedule.",
+    "Zero incidents reported. Infinite gratitude dispatched to Sooty.",
+    "Optimal smile and laughter throughput maintained all day."
+  ];
+
+  // Helper date formatter
+  function formatDate(d, options) {
+    return new Intl.DateTimeFormat('en-US', options || {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    }).format(d);
+  }
+
+  function formatTime(d) {
+    return new Intl.DateTimeFormat('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+      timeZoneName: 'short'
+    }).format(d);
+  }
+
+  // Generate 90 past dates ending today
+  function getPastDates(count) {
+    const dates = [];
+    const now = new Date();
+    for (let i = count - 1; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(now.getDate() - i);
+      dates.push(d);
+    }
+    return dates;
+  }
+
+  const past90Days = getPastDates(90);
+  const today = past90Days[past90Days.length - 1];
+  const ninetyDaysAgo = past90Days[0];
+
+  // Initialize UI on load
+  function initStatusPage() {
+    // 1. Update dynamic header timestamps
+    const lastUpdatedEl = document.getElementById('lastUpdatedText');
+    if (lastUpdatedEl) {
+      lastUpdatedEl.textContent = `All systems operational • Verified ${formatDate(today, { month: 'short', day: 'numeric', year: 'numeric' })} at ${formatTime(new Date())}`;
+    }
+
+    const rangeEl = document.getElementById('ninetyDaysRangeText');
+    if (rangeEl) {
+      rangeEl.textContent = `${formatDate(ninetyDaysAgo, { month: 'short', day: 'numeric' })} – ${formatDate(today, { month: 'short', day: 'numeric', year: 'numeric' })}`;
+    }
+
+    const ninetyLabel = document.getElementById('ninetyDaysAgoLabel');
+    if (ninetyLabel) {
+      ninetyLabel.textContent = `90 days ago (${formatDate(ninetyDaysAgo, { month: 'short', day: 'numeric' })})`;
+    }
+
+    // 2. Render Overall 90-Day Bars
+    const overallBarContainer = document.getElementById('overallUptimeBars');
+    if (overallBarContainer) {
+      overallBarContainer.innerHTML = '';
+      past90Days.forEach(date => {
+        const bar = createUptimeBar(date, 'All Services');
+        overallBarContainer.appendChild(bar);
+      });
+    }
+
+    // 3. Render Components List
+    const compList = document.getElementById('componentsList');
+    if (compList) {
+      compList.innerHTML = '';
+      services.forEach(svc => {
+        const item = document.createElement('div');
+        item.className = 'component-item';
+
+        const topRow = document.createElement('div');
+        topRow.className = 'component-top-row';
+        topRow.innerHTML = `
+          <div class="component-name-group">
+            <span class="component-icon">${svc.icon}</span>
+            <span class="component-title">${svc.name}</span>
+          </div>
+          <span class="component-status-badge">Operational</span>
+        `;
+
+        const desc = document.createElement('div');
+        desc.className = 'component-desc';
+        desc.textContent = svc.desc;
+
+        const barContainer = document.createElement('div');
+        barContainer.className = 'uptime-bar-container';
+        past90Days.forEach(date => {
+          const bar = createUptimeBar(date, svc.name);
+          barContainer.appendChild(bar);
+        });
+
+        const summary = document.createElement('div');
+        summary.className = 'component-uptime-summary';
+        summary.innerHTML = `
+          <span>90 days ago</span>
+          <span style="font-weight:600; color:#1a7f37;">100.0% uptime</span>
+          <span>Today</span>
+        `;
+
+        item.appendChild(topRow);
+        item.appendChild(desc);
+        item.appendChild(barContainer);
+        item.appendChild(summary);
+        compList.appendChild(item);
+      });
+    }
+
+    // 4. Render Incident History (Past 7 Days dynamically generated)
+    const historyList = document.getElementById('incidentHistory');
+    if (historyList) {
+      historyList.innerHTML = '';
+      const recentDates = getPastDates(7).reverse(); // Last 7 days, today first
+
+      recentDates.forEach((date, index) => {
+        const dayDiv = document.createElement('div');
+        dayDiv.className = 'incident-day';
+
+        const isToday = index === 0;
+        const isYesterday = index === 1;
+        let dayPrefix = '';
+        if (isToday) dayPrefix = 'Today — ';
+        else if (isYesterday) dayPrefix = 'Yesterday — ';
+
+        const noteIndex = (date.getDate() + date.getMonth() * 31) % positiveNotes.length;
+        const dayNote = positiveNotes[noteIndex];
+
+        dayDiv.innerHTML = `
+          <div class="incident-date">
+            ${dayPrefix}${formatDate(date, { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
+          </div>
+          <div class="incident-body">
+            <span class="incident-tag">Resolved</span>
+            No incidents reported. ${dayNote}
+          </div>
+        `;
+        historyList.appendChild(dayDiv);
+      });
+    }
+
+    // Setup interactive tooltip
+    setupTooltip();
+  }
+
+  // Create an uptime bar element with hover tooltip
+  function createUptimeBar(date, serviceName) {
+    const bar = document.createElement('div');
+    bar.className = 'uptime-bar';
+    const dateStr = formatDate(date, { month: 'short', day: 'numeric', year: 'numeric' });
+    bar.setAttribute('data-tooltip', `${dateStr}: 100.0% uptime (0 incidents)`);
+    return bar;
+  }
+
+  // Tooltip handler
+  function setupTooltip() {
+    const tooltip = document.getElementById('statusTooltip');
+    if (!tooltip) return;
+
+    document.addEventListener('mouseover', function(e) {
+      if (e.target.classList.contains('uptime-bar')) {
+        const text = e.target.getAttribute('data-tooltip');
+        if (text) {
+          tooltip.textContent = text;
+          tooltip.style.display = 'block';
+          const rect = e.target.getBoundingClientRect();
+          tooltip.style.left = (rect.left + rect.width / 2 + window.scrollX) + 'px';
+          tooltip.style.top = (rect.top + window.scrollY - 6) + 'px';
+        }
+      }
+    });
+
+    document.addEventListener('mouseout', function(e) {
+      if (e.target.classList.contains('uptime-bar')) {
+        tooltip.style.display = 'none';
+      }
+    });
+  }
+
+  // Toggle subscribe button
+  window.toggleSubscribe = function() {
+    const textEl = document.getElementById('subscribeText');
+    if (textEl) {
+      if (textEl.textContent.includes('Subscribed')) {
+        textEl.textContent = 'Subscribed to Sooty Updates ❤️';
+      } else {
+        textEl.textContent = 'Subscribed Forever';
+      }
+    }
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initStatusPage);
+  } else {
+    initStatusPage();
+  }
+})();
+</script>
