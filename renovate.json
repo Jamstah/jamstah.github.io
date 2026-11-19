@@ -3,14 +3,12 @@
   "extends": [
     "config:recommended"
   ],
-  {
-    "packageRules": [
-      {
-        "groupName": "GitHub Actions",
-        "matchManagers": [
-          "github-actions"
-        ]
-      }
-    ]
-  }
+  "packageRules": [
+    {
+      "groupName": "GitHub Actions",
+      "matchManagers": [
+        "github-actions"
+      ]
+    }
+  ]
 }
